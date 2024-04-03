@@ -1,0 +1,56 @@
+{
+    "name": "PaddleMovement",
+    "maps": [
+        {
+            "name": "Paddle",
+            "id": "a9066726-a72c-422c-b31b-238eeb38321d",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Button",
+                    "id": "ed858f4e-6da7-49ea-9669-6020443c0639",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "1D Axis",
+                    "id": "fd60192b-42a6-47e0-b8d4-c4815e99eb65",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "64413d76-e661-44a0-9cb1-f4b67e60d974",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "6b052767-08dc-4fff-a975-3aab3d23547e",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
