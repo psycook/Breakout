@@ -3,8 +3,8 @@ using UnityEngine.InputSystem;
 
 public class PaddleController : MonoBehaviour
 {
-    public float speed = 5.0f;
-
+    [SerializeField]
+    private float speed = 5.0f;
     private float _direction;
     private PlayerInput _playerInput;
     private InputAction _moveAction;
@@ -42,8 +42,7 @@ public class PaddleController : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        
+    { 
     }
 
     private void FixedUpdate()
