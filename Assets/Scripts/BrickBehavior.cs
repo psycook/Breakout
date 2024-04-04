@@ -6,15 +6,16 @@ public class BrickBehavior : MonoBehaviour
 {
     [SerializeField]
     [Range(1, 5)]
-    private int HitsToDie = 1;
+    private int hitsToDie = 1;
+    [SerializeField]
+    private bool isIndistructable = false;
 
-    // Start is called before the first frame update
+
     void Start()
     {
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         
@@ -24,7 +25,13 @@ public class BrickBehavior : MonoBehaviour
     {
         Debug.Log($"I am a {gameObject.tag} and I've been hit by a {collision.gameObject.tag}");
 
-        if(--HitsToDie <= 0)
+        if(isIndistructable)
+        {
+            FlashBrick();
+            return;
+        }
+
+        if(--hitsToDie <= 0)
         {
             Destroy(gameObject);
         }
@@ -39,7 +46,7 @@ public class BrickBehavior : MonoBehaviour
         SpriteRenderer renderer = GetComponent<SpriteRenderer>();
         Color originalColor = renderer.color; 
         renderer.color = Color.white; 
-        yield return new WaitForSeconds(0.05f); 
+        yield return new WaitForSeconds(0.025f); 
         renderer.color = originalColor; 
     }
 }
