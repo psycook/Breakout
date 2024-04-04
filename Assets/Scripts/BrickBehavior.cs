@@ -8,12 +8,15 @@ public class BrickBehavior : MonoBehaviour
     [Range(1, 5)]
     private int hitsToDie = 1;
     [SerializeField]
+    private Color color = Color.gray;
+    [SerializeField]
     private bool isIndistructable = false;
 
 
     void Start()
     {
-        
+        SpriteRenderer renderer = GetComponent<SpriteRenderer>();
+        renderer.color = color;
     }
 
     void Update()
