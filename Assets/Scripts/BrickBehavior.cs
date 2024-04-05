@@ -48,13 +48,16 @@ public class BrickBehavior : MonoBehaviour
         Color originalColor = renderer.color; 
         renderer.color = Color.white; 
         yield return new WaitForSeconds(0.1f);
-        if(renderer != null)
+        if(hitsToDie <= 0)
+        {
+            if(gameObject != null)
+            {
+                Destroy(gameObject);
+            }
+        }
+        if (renderer != null)
         {
             renderer.color = originalColor;
         }
-        if(hitsToDie <= 0)
-        {
-            Destroy(gameObject);
-        }        
     }
 }
