@@ -2,16 +2,16 @@ using UnityEngine;
 
 public class LevelBehaviour : MonoBehaviour
 {
-    private int levelCount { get; set; }
-    private int levelIndex;
-    private int[,] currentLevel;
-
     [SerializeField]
     private GameObject[] bricks = new GameObject[7];
     [SerializeField]
     private float brickWidth = 0.808f;
     [SerializeField]
     private float brickHeight = 0.404f;
+
+    private int _levelCount { get; set; }
+    private int _levelIndex;
+    private int[,] _currentLevel;
 
     private static int[,] level1 = new int[10, 20]
     {
@@ -49,39 +49,39 @@ public class LevelBehaviour : MonoBehaviour
 
     public void newGame()
     {
-        levelCount = levels.Length;
-        levelIndex = 0;
-        currentLevel = levels[levelIndex];
+        _levelCount = levels.Length;
+        _levelIndex = 0;
+        _currentLevel = levels[_levelIndex];
     }
 
     public void setLevel(int newLevelIndex)
     {
-        this.levelIndex = newLevelIndex;
+        this._levelIndex = newLevelIndex;
     }
 
     public bool nextLevel()
     {
-        if(++levelIndex >= levelCount)
+        if(++_levelIndex >= _levelCount)
         {
             // game finished
             return false;
         }
-        currentLevel = levels[levelIndex];
+        _currentLevel = levels[_levelIndex];
         return true;
     }
 
     public int getDisplayLevel()
     {
-        return levelIndex + 1;
+        return _levelIndex + 1;
     }
 
     public bool startLevel()
     {
-        for (int i = 0; i < currentLevel.GetLength(0); i++) // Rows
+        for (int i = 0; i < _currentLevel.GetLength(0); i++) // Rows
         {
-            for (int j = 0; j < currentLevel.GetLength(1); j++) // Columns
+            for (int j = 0; j < _currentLevel.GetLength(1); j++) // Columns
             {
-                int brickType = currentLevel[i, j];
+                int brickType = _currentLevel[i, j];
                 if (brickType != 0)
                 {
                     Vector2 position = new Vector2(j * brickWidth, i * -brickHeight);

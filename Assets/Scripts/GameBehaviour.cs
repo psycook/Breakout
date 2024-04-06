@@ -17,7 +17,16 @@ public class GameBehaviour : MonoBehaviour
     [SerializeField]
     private LevelBehaviour levelBehaviour;
 
-    public GameState gameState = GameState.Idle;
+    private GameState _gameState = GameState.Idle;
+
+    public GameState gameState
+    {
+        get { return _gameState; }
+        set
+        {
+            _gameState = value;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()

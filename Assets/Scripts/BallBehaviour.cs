@@ -15,7 +15,6 @@ public class BallBehaviour : MonoBehaviour
 
     private float _speed;
     private Rigidbody2D _rigidBody;
-    private AudioSource _audioSource;
     private GameBehaviour _gameBehaviour;
     private PaddleBehaviour _paddleBehaviour;
 
@@ -24,7 +23,6 @@ public class BallBehaviour : MonoBehaviour
     {
         _gameBehaviour = FindAnyObjectByType<GameBehaviour>();
         _paddleBehaviour = FindAnyObjectByType<PaddleBehaviour>();
-        _audioSource = GetComponent<AudioSource>();
         _rigidBody = GetComponent<Rigidbody2D>();
         Reset();
     }
@@ -36,11 +34,11 @@ public class BallBehaviour : MonoBehaviour
 
         if(_gameBehaviour.gameState == GameState.GameOver)
         {
-            GetComponent<Renderer>().enabled = false;
+            gameObject.SetActive(false);
         }
         else if (_gameBehaviour.gameState == GameState.Playing)
         {
-            GetComponent<Renderer>().enabled = true;
+            gameObject.SetActive(true);
             _speed = startSpeed;
             float angle = Random.Range(-45f, 45f);
             Vector2 direction = new Vector2(Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle * Mathf.Deg2Rad));
@@ -64,19 +62,19 @@ public class BallBehaviour : MonoBehaviour
     {
         if(collision.gameObject.tag == "Brick")
         {
-            if(brickHit != null && _audioSource != null)
+            if(brickHit != null && AudioManager.Instance != null)
             {
-                _audioSource.PlayOneShot(brickHit);
+                AudioManager.Instance.PlaySound(brickHit, 1.0f);
             }
             _speed += 0.025f;
         }
         else if (collision.gameObject.tag == "Wall")
         {
-            if (wallHit != null && _audioSource != null)
+            if (wallHit != null && AudioManager.Instance != null)
             {
-                _audioSource.PlayOneShot(wallHit);
+                AudioManager.Instance.PlaySound(wallHit, 1.0f);
             }
-            if(Mathf.Abs(_rigidBody.velocity.x) < 0.25)
+            if (Mathf.Abs(_rigidBody.velocity.x) < 0.25)
             {
                 if(_rigidBody.velocity.x >= 0.0f)
                 {
@@ -90,9 +88,9 @@ public class BallBehaviour : MonoBehaviour
         }
         else if (collision.gameObject.tag == "Player")
         {
-            if (batHit != null && _audioSource != null)
+            if (batHit != null && AudioManager.Instance != null)
             {
-                _audioSource.PlayOneShot(batHit);
+                AudioManager.Instance.PlaySound(batHit, 1.0f);
             }
             float positionDifference = transform.position.x - collision.gameObject.transform.position.x;
             Vector2 newDirection = new Vector2(positionDifference*5.0f, _rigidBody.velocity.y).normalized;
@@ -104,9 +102,9 @@ public class BallBehaviour : MonoBehaviour
     {
         if (collision.tag == "OutOfBounds")
         {
-            if (ballFail != null && _audioSource != null)
+            if (ballFail != null && AudioManager.Instance != null)
             {
-                _audioSource.PlayOneShot(ballFail);
+                AudioManager.Instance.PlaySound(ballFail, 0.25f);
             }
             _gameBehaviour.BallLost();
         }
