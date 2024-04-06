@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BallController : MonoBehaviour
+public class BallBehaviour : MonoBehaviour
 {
     [SerializeField]
     private float startSpeed = 5.0f;
@@ -16,28 +16,48 @@ public class BallController : MonoBehaviour
     private float _speed;
     private Rigidbody2D _rigidBody;
     private AudioSource _audioSource;
+    private GameBehaviour _gameBehaviour;
+    private PaddleBehaviour _paddleBehaviour;
 
     // Start is called before the first frame update
     void Start()
     {
+        _gameBehaviour = FindAnyObjectByType<GameBehaviour>();
+        _paddleBehaviour = FindAnyObjectByType<PaddleBehaviour>();
         _audioSource = GetComponent<AudioSource>();
         _rigidBody = GetComponent<Rigidbody2D>();
         Reset();
     }
 
-    private void Reset()
+    public void Reset()
     {
-        _speed = startSpeed;
-        transform.position = new Vector2(0.0f, -4f);
-        float angle = Random.Range(-45f, 45f);
-        Vector2 direction = new Vector2(Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle * Mathf.Deg2Rad));
-        _rigidBody.velocity = direction * _speed;
+        transform.position = new Vector2(transform.position.x, -4.16f);
+        _rigidBody.velocity = new Vector2(0.0f, 0.0f);
+
+        if(_gameBehaviour.gameState == GameState.GameOver)
+        {
+            GetComponent<Renderer>().enabled = false;
+        }
+        else if (_gameBehaviour.gameState == GameState.Playing)
+        {
+            GetComponent<Renderer>().enabled = true;
+            _speed = startSpeed;
+            float angle = Random.Range(-45f, 45f);
+            Vector2 direction = new Vector2(Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle * Mathf.Deg2Rad));
+            _rigidBody.velocity = direction * _speed;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(_gameBehaviour != null && _gameBehaviour.gameState == GameState.Serving)
+        {
+            if(_paddleBehaviour != null)
+            {
+                transform.position = new Vector2(_paddleBehaviour.transform.position.x, transform.position.y);
+            }
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -88,7 +108,7 @@ public class BallController : MonoBehaviour
             {
                 _audioSource.PlayOneShot(ballFail);
             }
-            Reset();
+            _gameBehaviour.BallLost();
         }
     }
 }

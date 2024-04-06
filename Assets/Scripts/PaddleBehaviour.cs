@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PaddleController : MonoBehaviour
+public class PaddleBehaviour : MonoBehaviour
 {
     [SerializeField]
     private float speed = 5.0f;

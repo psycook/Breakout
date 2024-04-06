@@ -9,45 +9,85 @@ public class GameBehaviour : MonoBehaviour
     [SerializeField]
     private int score;
     [SerializeField]
-    private int level;
-    [SerializeField]
     private TextMeshProUGUI livesText;
     [SerializeField]
     private TextMeshProUGUI scoreText;
     [SerializeField]
     private TextMeshProUGUI levelText;
+    [SerializeField]
+    private LevelBehaviour levelBehaviour;
+
+    public GameState gameState = GameState.Idle;
 
     // Start is called before the first frame update
     void Start()
     {
         if(livesText != null)
         {
-            livesText.text = $"LIVES\n{score.ToString("D2")}";
+            livesText.text = $"LIVES\n{lives.ToString("D2")}";
         }
         if (scoreText != null)
         {
             scoreText.text = $"SCORE\n{score.ToString("D6")}";
         }
-        if (levelText != null)
+        if (levelText != null && levelBehaviour != null)
         {
-            levelText.text = $"LEVEL\n{score.ToString("D2")}";
+            levelBehaviour.newGame();
+            levelText.text = $"LEVEL\n{levelBehaviour.getDisplayLevel().ToString("D2")}";
         }
+
+        gameState = GameState.Idle;
+        StartLevel();
+        gameState = GameState.Serving;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-    }
-
-    public void decrementLife()
-    {
-        if(--lives == 0)
+        if(gameState == GameState.Serving)
         {
-            //game over
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                gameState = GameState.Playing;
+                BallBehaviour ballBehaviour = FindAnyObjectByType<BallBehaviour>();
+                ballBehaviour.Reset();
+            }
         }
     }
 
-    public void incrementScore(int value)
+    public void BallLost()
+    {
+        lives--;
+
+        Debug.Log($"Lives {lives}");
+
+        if (livesText != null)
+        {
+            livesText.text = $"LIVES\n{lives.ToString("D2")}";
+        }
+
+        if (lives == 0)
+        {
+            gameState = GameState.GameOver;
+            FindAnyObjectByType<BallBehaviour>().Reset();
+        }
+        else
+        {
+            gameState = GameState.Serving;
+            FindAnyObjectByType<BallBehaviour>().Reset();
+        }
+    }
+
+    private void StartLevel()
+    {
+        if(levelBehaviour != null)
+        {
+            levelBehaviour.startLevel();
+        }
+    }
+
+    public void IncrementScore(int value)
     {
         score += value;
         if(scoreText != null)
@@ -55,4 +95,5 @@ public class GameBehaviour : MonoBehaviour
             scoreText.text = $"SCORE\n{score.ToString("D6")}";
         }
     }
+
 }

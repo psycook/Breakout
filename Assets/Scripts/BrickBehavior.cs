@@ -36,7 +36,7 @@ public class BrickBehavior : MonoBehaviour
         }
         if(_gameBehaviour != null)
         {
-            _gameBehaviour.incrementScore(hitScore);
+            _gameBehaviour.IncrementScore(hitScore);
         }
         hitsToDie--;
         StartCoroutine(FlashBrick());
