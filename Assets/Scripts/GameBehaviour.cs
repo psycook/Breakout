@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class GameBehaviour : MonoBehaviour
 {
@@ -17,6 +18,9 @@ public class GameBehaviour : MonoBehaviour
     [SerializeField]
     private LevelBehaviour levelBehaviour;
 
+    private PlayerInput _playerInput;
+    private InputAction _buttonAction;
+
     private GameState _gameState = GameState.Idle;
 
     public GameState gameState
@@ -31,7 +35,15 @@ public class GameBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if(livesText != null)
+        _playerInput = GetComponent<PlayerInput>();
+        _buttonAction = _playerInput.actions["Buttons"];
+        if(_buttonAction != null)
+        {
+            _buttonAction.Enable();
+            _buttonAction.performed += ButtonPressed;
+        }
+
+        if (livesText != null)
         {
             livesText.text = $"LIVES\n{lives.ToString("D2")}";
         }
@@ -48,20 +60,20 @@ public class GameBehaviour : MonoBehaviour
         gameState = GameState.Idle;
         StartLevel();
         gameState = GameState.Serving;
-
     }
 
-    // Update is called once per frame
-    void Update()
+    private void ButtonPressed(InputAction.CallbackContext context)
     {
-        if(gameState == GameState.Serving)
+        Debug.Log($"ButtonPressed {context.control.name}");
+
+        if(
+            (context.control.name == "buttonSouth" ||
+             context.control.name == "space") &&
+            gameState == GameState.Serving)
         {
-            if(Input.GetKeyDown(KeyCode.Space))
-            {
-                gameState = GameState.Playing;
-                BallBehaviour ballBehaviour = FindAnyObjectByType<BallBehaviour>();
-                ballBehaviour.Reset();
-            }
+            gameState = GameState.Playing;
+            BallBehaviour ballBehaviour = FindAnyObjectByType<BallBehaviour>();
+            ballBehaviour.Reset();
         }
     }
 
@@ -105,4 +117,12 @@ public class GameBehaviour : MonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        if (_buttonAction != null)
+        {
+            _buttonAction.performed -= ButtonPressed;
+            _buttonAction.Disable();
+        }
+    }
 }

@@ -12,6 +12,10 @@ public class BrickBehavior : MonoBehaviour
     private bool isIndistructable = false;
 
     private GameBehaviour _gameBehaviour;
+    private Coroutine _flashCoroutine = null;
+    private SpriteRenderer _spriteRenderer = null;
+    private Color _originalColor;
+
 
     void Start()
     {
@@ -20,7 +24,7 @@ public class BrickBehavior : MonoBehaviour
         {
             _gameBehaviour = gameObject.GetComponent<GameBehaviour>();
         }
-
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -29,35 +33,40 @@ public class BrickBehavior : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (isIndistructable)
+        if(!isIndistructable && _gameBehaviour != null)
         {
-            StartCoroutine(FlashBrick());
-            return;
-        }
-        if(_gameBehaviour != null)
-        {
+            hitsToDie--;
             _gameBehaviour.IncrementScore(hitScore);
         }
-        hitsToDie--;
-        StartCoroutine(FlashBrick());
+        StartBrickHitCoroutine();
+    }
+
+    private void StartBrickHitCoroutine()
+    {
+        if (_flashCoroutine != null)
+        {
+            StopCoroutine(_flashCoroutine);
+            _spriteRenderer.color = _originalColor;
+            _flashCoroutine = null;
+        }
+        _originalColor = _spriteRenderer.color;
+        _spriteRenderer.color = Color.white;
+        _flashCoroutine = StartCoroutine(FlashBrick());
     }
 
     private IEnumerator FlashBrick()
     {
-        SpriteRenderer renderer = GetComponent<SpriteRenderer>();
-        Color originalColor = renderer.color; 
-        renderer.color = Color.white; 
-        yield return new WaitForSeconds(0.1f);
-        if(hitsToDie <= 0)
+        yield return new WaitForSeconds(0.05f);
+        if (_spriteRenderer != null)
         {
-            if(gameObject != null)
-            {
-                Destroy(gameObject);
-            }
+            _spriteRenderer.color = _originalColor;
         }
-        if (renderer != null)
+        if (hitsToDie <= 0 && gameObject != null)
         {
-            renderer.color = originalColor;
+            Destroy(gameObject);
+            Debug.Log($"There are {FindAnyObjectByType<LevelBehaviour>().decrementLevelBrickCount()} bricks left");
         }
+        _flashCoroutine = null;
     }
+
 }

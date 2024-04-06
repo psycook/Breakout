@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2800553070903934878}
   - component: {fileID: 2705255789357524024}
   m_Layer: 0
-  m_Name: Brick6
+  m_Name: Brick7
   m_TagString: Brick
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.84313726, g: 0.36862746, b: 0.30980393, a: 1}
+  m_Color: {r: 0.9098039, g: 0.9098039, b: 0.9098039, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -144,5 +144,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitsToDie: 1
-  hitScore: 60
-  isIndistructable: 0
+  hitScore: 0
+  isIndistructable: 1

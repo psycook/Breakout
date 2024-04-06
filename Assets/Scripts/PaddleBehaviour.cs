@@ -5,6 +5,7 @@ public class PaddleBehaviour : MonoBehaviour
 {
     [SerializeField]
     private float speed = 5.0f;
+
     private float _direction;
     private PlayerInput _playerInput;
     private InputAction _moveAction;
@@ -32,7 +33,7 @@ public class PaddleBehaviour : MonoBehaviour
 
     private void OnMovePerformed(InputAction.CallbackContext context)
     {
-        _direction = context.ReadValue<float>();
+        _direction = context.ReadValue<float>() * 1.5f;
     }
 
     private void OnMoveCancelled(InputAction.CallbackContext context)
