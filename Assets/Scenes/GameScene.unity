@@ -159,7 +159,7 @@ MonoBehaviour:
   - {fileID: 2811433285997106949, guid: 42df2c91882af4bf29c499699cd0f75b, type: 3}
   - {fileID: 6901282215334441208, guid: 400202f8300eb4bf6af82bd816173842, type: 3}
   - {fileID: 2312916908326349079, guid: 68ea7a680b0e942c8aa2631596939c5d, type: 3}
-  - {fileID: 0}
+  - {fileID: 2312916908326349079, guid: 6df76341684cd44a886176f76f03fcfb, type: 3}
   brickWidth: 0.808
   brickHeight: 0.404
 --- !u!4 &39228512
@@ -1268,7 +1268,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.1, y: 1}
+  m_Size: {x: 1, y: 0.2}
   m_EdgeRadius: 0
 --- !u!114 &1347658523
 MonoBehaviour:
@@ -1426,7 +1426,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 0.1}
+  m_Size: {x: 0.2, y: 1}
   m_EdgeRadius: 0
 --- !u!1 &1445687028
 GameObject:

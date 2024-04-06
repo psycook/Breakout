@@ -37,6 +37,10 @@ public class BrickBehavior : MonoBehaviour
         {
             hitsToDie--;
             _gameBehaviour.IncrementScore(hitScore);
+            if(hitsToDie == 0)
+            {
+                GetComponent<Collider2D>().enabled = false;
+            }
         }
         StartBrickHitCoroutine();
     }

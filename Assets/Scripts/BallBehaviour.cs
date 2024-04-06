@@ -66,7 +66,14 @@ public class BallBehaviour : MonoBehaviour
             {
                 AudioManager.Instance.PlaySound(brickHit, 1.0f);
             }
-            _speed += 0.025f;
+            _speed += 0.02f;
+        }
+        else if (collision.gameObject.tag == "Brick7")
+        {
+            if (brickHit != null && AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlaySound(brickHit, 1.0f);
+            }
         }
         else if (collision.gameObject.tag == "Wall")
         {
