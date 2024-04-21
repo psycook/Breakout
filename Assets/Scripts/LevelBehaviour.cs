@@ -103,23 +103,20 @@ public class LevelBehaviour : MonoBehaviour
         {0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0}
     };
 
-    private static int[,] levelTest = new int[10, 20]
+    private static int[,] levelTest1 = new int[2, 20]
     {
-       //1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0
-        {5,5,5,5,5,5,5,5,5,0,4,0,5,5,5,5,5,5,5,5},
-        {0,0,0,0,0,0,0,0,0,4,2,4,0,0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0,0,4,2,2,2,4,0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0,4,2,2,2,2,2,4,0,0,0,0,0,0},
-        {0,0,0,0,0,0,4,2,2,2,2,2,2,4,4,0,0,0,0,0},
-        {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-        {0,0,0,1,2,3,4,5,2,3,4,1,4,4,4,4,4,0,0,0},
-        {0,0,0,0,0,4,6,6,6,6,6,6,6,6,6,0,0,0,0,0},
         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
+        {0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0}
+     };
+
+    private static int[,] levelTest2 = new int[2, 20]
+    {
+        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        {0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0}
      };
 
 
-    private static int[,] level6 = new int[10, 20]
+    private static int[,] levelBlank = new int[10, 20]
     {
        //1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0
         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -134,7 +131,7 @@ public class LevelBehaviour : MonoBehaviour
         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
     };
 
-    private int[][,] levels = new int[][,] { level3 };
+    private int[][,] levels = new int[][,] { levelTest1, levelTest2 };
 
     LevelBehaviour()
     {
@@ -193,8 +190,13 @@ public class LevelBehaviour : MonoBehaviour
         return true;
     }
 
-    public int decrementLevelBrickCount()
+    public void decrementLevelBrickCount()
     {
-        return --_levelBricksToBreakCount;
+        _levelBricksToBreakCount--;
+    }
+
+    public int getLevelBrickCount()
+    {
+        return _levelBricksToBreakCount;
     }
 }

@@ -16,7 +16,9 @@ public class GameBehaviour : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI levelText;
     [SerializeField]
-    private LevelBehaviour levelBehaviour;
+    private LevelBehaviour _levelBehaviour;
+
+    private BallBehaviour _ballBehaviour;
 
     private PlayerInput _playerInput;
     private InputAction _buttonAction;
@@ -35,6 +37,7 @@ public class GameBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _ballBehaviour = FindAnyObjectByType<BallBehaviour>();
         _playerInput = GetComponent<PlayerInput>();
         _buttonAction = _playerInput.actions["Buttons"];
         if(_buttonAction != null)
@@ -51,10 +54,10 @@ public class GameBehaviour : MonoBehaviour
         {
             scoreText.text = $"SCORE\n{score.ToString("D6")}";
         }
-        if (levelText != null && levelBehaviour != null)
+        if (levelText != null && _levelBehaviour != null)
         {
-            levelBehaviour.newGame();
-            levelText.text = $"LEVEL\n{levelBehaviour.getDisplayLevel().ToString("D2")}";
+            _levelBehaviour.newGame();
+            levelText.text = $"LEVEL\n{_levelBehaviour.getDisplayLevel().ToString("D2")}";
         }
 
         gameState = GameState.Idle;
@@ -102,9 +105,9 @@ public class GameBehaviour : MonoBehaviour
 
     private void StartLevel()
     {
-        if(levelBehaviour != null)
+        if(_levelBehaviour != null)
         {
-            levelBehaviour.startLevel();
+            _levelBehaviour.startLevel();
         }
     }
 
@@ -116,7 +119,6 @@ public class GameBehaviour : MonoBehaviour
             scoreText.text = $"SCORE\n{score.ToString("D6")}";
         }
     }
-
     private void OnDestroy()
     {
         if (_buttonAction != null)
@@ -124,5 +126,18 @@ public class GameBehaviour : MonoBehaviour
             _buttonAction.performed -= ButtonPressed;
             _buttonAction.Disable();
         }
+    }
+
+    public void levelWon()
+    {
+        if(_levelBehaviour != null)
+        {
+            _levelBehaviour.nextLevel();
+            levelText.text = $"LEVEL\n{_levelBehaviour.getDisplayLevel().ToString("D2")}";
+        }
+        gameState = GameState.Idle;
+        _ballBehaviour.Reset();
+        StartLevel();
+        gameState = GameState.Serving;
     }
 }

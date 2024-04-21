@@ -15,7 +15,7 @@ public class BrickBehavior : MonoBehaviour
     private Coroutine _flashCoroutine = null;
     private SpriteRenderer _spriteRenderer = null;
     private Color _originalColor;
-
+    private LevelBehaviour _levelBehaviour;
 
     void Start()
     {
@@ -25,6 +25,8 @@ public class BrickBehavior : MonoBehaviour
             _gameBehaviour = gameObject.GetComponent<GameBehaviour>();
         }
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _levelBehaviour = FindAnyObjectByType<LevelBehaviour>();
+        _gameBehaviour = FindAnyObjectByType<GameBehaviour>();
     }
 
     void Update()
@@ -68,9 +70,19 @@ public class BrickBehavior : MonoBehaviour
         if (hitsToDie <= 0 && gameObject != null)
         {
             Destroy(gameObject);
-            Debug.Log($"There are {FindAnyObjectByType<LevelBehaviour>().decrementLevelBrickCount()} bricks left");
+            _levelBehaviour.decrementLevelBrickCount();
+
+            Debug.Log($"There are {_levelBehaviour.getLevelBrickCount()} bricks left");
+
+            if (_levelBehaviour.getLevelBrickCount() == 0)
+            {
+                if(_gameBehaviour != null)
+                {
+                    _gameBehaviour.levelWon();
+                }
+            }
+
         }
         _flashCoroutine = null;
     }
-
 }
