@@ -62,10 +62,7 @@ public class GameBehaviour : MonoBehaviour
             _levelBehaviour.newGame();
             levelText.text = $"LEVEL\n{_levelBehaviour.getDisplayLevel().ToString("D2")}";
         }
-        if (levelInformationText != null)
-        {
-            levelInformationText.text = $"Level {_levelBehaviour.getDisplayLevel().ToString("D2")} - GET READY!";
-        }
+
 
         gameState = GameState.Idle;
         StartLevel();
@@ -76,19 +73,18 @@ public class GameBehaviour : MonoBehaviour
     {
         Debug.Log($"ButtonPressed {context.control.name}");
 
-        if(
-            (context.control.name == "buttonSouth" ||
-             context.control.name == "space") &&
-            gameState == GameState.Serving)
-        {
+        if((context.control.name == "buttonSouth" || context.control.name == "space") && gameState == GameState.Serving)
+            {
             gameState = GameState.Playing;
-            // hide the level information text
             if (levelInformationText != null)
             {
                 levelInformationText.enabled = false;
             }
             BallBehaviour ballBehaviour = FindAnyObjectByType<BallBehaviour>();
-            ballBehaviour.Reset();
+            if(ballBehaviour != null)
+            {
+                ballBehaviour.Reset();
+            }
         }
     }
 
@@ -117,6 +113,11 @@ public class GameBehaviour : MonoBehaviour
 
     private void StartLevel()
     {
+        if (levelInformationText != null)
+        {
+            levelInformationText.enabled = true;
+            levelInformationText.text = $"Level {_levelBehaviour.getDisplayLevel().ToString("D2")} - GET READY!";
+        }
         if(_levelBehaviour != null)
         {
             _levelBehaviour.startLevel();
