@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class BallBehaviour : MonoBehaviour
@@ -40,7 +41,8 @@ public class BallBehaviour : MonoBehaviour
         {
             gameObject.SetActive(true);
             _speed = startSpeed;
-            float angle = Random.Range(-45f, 45f);
+            //float angle = Random.Range(-45f, 45f);
+            float angle = 25f;
             Vector2 direction = new Vector2(Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle * Mathf.Deg2Rad));
             _rigidBody.velocity = direction * _speed;
         }

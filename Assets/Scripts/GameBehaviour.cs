@@ -16,6 +16,9 @@ public class GameBehaviour : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI levelText;
     [SerializeField]
+    private TextMeshProUGUI levelInformationText;
+
+    [SerializeField]
     private LevelBehaviour _levelBehaviour;
 
     private BallBehaviour _ballBehaviour;
@@ -59,6 +62,10 @@ public class GameBehaviour : MonoBehaviour
             _levelBehaviour.newGame();
             levelText.text = $"LEVEL\n{_levelBehaviour.getDisplayLevel().ToString("D2")}";
         }
+        if (levelInformationText != null)
+        {
+            levelInformationText.text = $"Level {_levelBehaviour.getDisplayLevel().ToString("D2")} - GET READY!";
+        }
 
         gameState = GameState.Idle;
         StartLevel();
@@ -75,6 +82,11 @@ public class GameBehaviour : MonoBehaviour
             gameState == GameState.Serving)
         {
             gameState = GameState.Playing;
+            // hide the level information text
+            if (levelInformationText != null)
+            {
+                levelInformationText.enabled = false;
+            }
             BallBehaviour ballBehaviour = FindAnyObjectByType<BallBehaviour>();
             ballBehaviour.Reset();
         }
