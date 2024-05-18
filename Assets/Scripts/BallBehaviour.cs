@@ -41,11 +41,15 @@ public class BallBehaviour : MonoBehaviour
         {
             gameObject.SetActive(true);
             _speed = startSpeed;
-            //float angle = Random.Range(-45f, 45f);
-            float angle = 25f;
+            float angle = 25f; // initial angle 25 degrees
             Vector2 direction = new Vector2(Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle * Mathf.Deg2Rad));
             _rigidBody.velocity = direction * _speed;
         }
+    }
+
+    public void Freeze()
+    {
+        _rigidBody.velocity = new Vector2(0.0f, 0.0f);
     }
 
     // Update is called once per frame

@@ -71,9 +71,7 @@ public class BrickBehavior : MonoBehaviour
         {
             Destroy(gameObject);
             _levelBehaviour.decrementLevelBrickCount();
-
-            Debug.Log($"There are {_levelBehaviour.getLevelBrickCount()} bricks left");
-
+            
             if (_levelBehaviour.getLevelBrickCount() == 0)
             {
                 if(_gameBehaviour != null)

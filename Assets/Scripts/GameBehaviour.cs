@@ -17,6 +17,8 @@ public class GameBehaviour : MonoBehaviour
     private TextMeshProUGUI levelText;
     [SerializeField]
     private TextMeshProUGUI levelInformationText;
+    [SerializeField]
+    private AudioClip levelWonClip;
 
     [SerializeField]
     private LevelBehaviour _levelBehaviour;
@@ -142,6 +144,23 @@ public class GameBehaviour : MonoBehaviour
     }
 
     public void levelWon()
+    {
+        if(AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySound(levelWonClip, 1.0f);
+        }
+        levelInformationText.text = $"Level {_levelBehaviour.getDisplayLevel().ToString("D2")} - LEVEL COMPLETE!";
+        levelInformationText.enabled = true;
+        if(_ballBehaviour != null)
+        {
+            _ballBehaviour.Freeze();
+        }
+
+        // Wait for 2 seconds before moving to the next level
+        Invoke("segueToNextLevel", 2.0f);
+    }
+
+    public void segueToNextLevel()
     {
         if(_levelBehaviour != null)
         {
