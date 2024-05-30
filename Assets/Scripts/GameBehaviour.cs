@@ -64,8 +64,6 @@ public class GameBehaviour : MonoBehaviour
             _levelBehaviour.newGame();
             levelText.text = $"LEVEL\n{_levelBehaviour.getDisplayLevel().ToString("D2")}";
         }
-
-
         gameState = GameState.Idle;
         StartLevel();
         gameState = GameState.Serving;
@@ -164,7 +162,15 @@ public class GameBehaviour : MonoBehaviour
     {
         if(_levelBehaviour != null)
         {
-            _levelBehaviour.nextLevel();
+            var hasNextLevel = _levelBehaviour.nextLevel();
+            if (!hasNextLevel)
+            {
+                Debug.Log("Game Won");
+                gameState = GameState.GameWon;
+                levelInformationText.text = "Congratulations - Game Won";
+                levelInformationText.enabled = true;
+                return;
+            }
             levelText.text = $"LEVEL\n{_levelBehaviour.getDisplayLevel().ToString("D2")}";
         }
         gameState = GameState.Idle;

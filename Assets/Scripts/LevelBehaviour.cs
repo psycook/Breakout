@@ -131,7 +131,7 @@ public class LevelBehaviour : MonoBehaviour
         {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}
     };
 
-    private int[][,] levels = new int[][,] { levelTest1, levelTest2, level1 };
+    private int[][,] levels = new int[][,] { levelTest1, levelTest2 };
 
     LevelBehaviour()
     {
